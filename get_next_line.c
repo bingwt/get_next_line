@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/05 20:46:06 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/08 11:08:42 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,36 @@ static char	*line;
 
 char	*get_next_line(int fd)
 {
+	char	buffer[BUFFER_SIZE];
+	char	*ptr;
+	int	i;
+
+	line = malloc(sizeof(char) * 1000);
+	ptr = line;
+	buffer[BUFFER_SIZE - 1] = '\0';
+	while (*buffer != '\n')
+	{
+		i = 0;
+		if (BUFFER_SIZE == 1)
+			{
+				read(fd, buffer, BUFFER_SIZE);
+				*ptr = buffer[i++];
+				ptr++;
+			}
+		else
+			read(fd, buffer, BUFFER_SIZE - 1);
+		while (i < BUFFER_SIZE - 1)
+		{
+			*ptr = buffer[i++];
+			ptr++;
+		}
+	}
+	*ptr = '\0';
+	return (line);
+}
+
+
+/*{
 	int	i;
 	char	buffer[BUFFER_SIZE];
 	int	offset;
@@ -58,7 +88,7 @@ char	*get_next_line(int fd)
 	}
 }
 
-/*static char	*line;
+static char	*line;
 
 char	*get_next_line(int fd)
 {
