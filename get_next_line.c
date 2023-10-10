@@ -6,16 +6,40 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/08 11:08:42 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/11 01:54:19 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*line;
 
 char	*get_next_line(int fd)
 {
+	int	buffer_index;
+	static int	read_bytes;
+	char	buffer[BUFFER_SIZE];
+	char	*line;
+	
+	line = "";
+	read_bytes = read(fd, buffer, BUFFER_SIZE);
+	while (read_bytes > 0)
+	{
+		buffer_index = 0;
+		while (buffer_index < BUFFER_SIZE)
+		{
+			if (buffer[buffer_index + BUFFER_SIZE - 1] == '\n')
+			{
+				line = ft_strjoin(line, &buffer[buffer_index]);
+				return (line);
+			}
+			line = ft_strjoin(line, &buffer[buffer_index]);
+			buffer_index += BUFFER_SIZE;
+		}
+		read_bytes = read(fd, buffer, BUFFER_SIZE);
+	}
+	return (line);
+}
+/*{
 	char	buffer[BUFFER_SIZE];
 	char	*ptr;
 	int	i;
@@ -44,8 +68,7 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-
-/*{
+{
 	int	i;
 	char	buffer[BUFFER_SIZE];
 	int	offset;
