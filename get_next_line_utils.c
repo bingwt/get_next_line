@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:55 by btan              #+#    #+#             */
-/*   Updated: 2023/10/05 17:19:16 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/13 18:10:48 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,34 @@ size_t	ft_strlen(const char *s)
 	while (*end)
 		end++;
 	return (end - s);
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	char	*temp;
+	int	i;
+
+	temp = malloc(nmemb * size);
+	if (!temp)
+		return (NULL);
+	i = 0;
+	while (i != size)
+		temp[i++] = '\0';
+	return temp;
+}
+
+int	is_newline(const char *s)
+{
+	char	*end;
+
+	end = s;
+	while (*end)
+	{
+		if (*end == '\n')
+			return (end - s);
+		end++;
+	}
+	return (0);
 }
 
 int	is_end(const char c)
