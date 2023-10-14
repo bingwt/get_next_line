@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/14 17:03:22 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/14 17:55:00 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,26 @@
 char	*get_next_line(int fd)
 {
 	static char	*buffer = "";
-	char		raw[BUFFER_SIZE];
+	char		raw[BUFFER_SIZE + 1];
+	int		read_bytes;
 
-	if (is_newline(buffer))
-		buffer += (is_newline(buffer) + 1);
-	else
-		buffer = ft_subdup("", 1);
-	ft_bzero(raw, BUFFER_SIZE);
-	read(fd, raw, BUFFER_SIZE - 1);
-	buffer = ft_strjoin(buffer, raw);
-	while (!is_newline(buffer))
+	if (fd)
 	{
-		read(fd, raw, BUFFER_SIZE - 1);
+		if (is_newline(buffer))
+			buffer += (is_newline(buffer) + 1);
+		else
+			buffer = ft_subdup("", 1);
+		ft_bzero(raw, BUFFER_SIZE);
+		read_bytes = read(fd, raw, BUFFER_SIZE);
 		buffer = ft_strjoin(buffer, raw);
+		while (!is_newline(buffer) && read_bytes)
+		{
+			read_bytes = read(fd, raw, BUFFER_SIZE);
+			buffer = ft_strjoin(buffer, raw);
+		}
+		return (ft_subdup(buffer, is_newline(buffer)));
 	}
-	return (ft_subdup(buffer, is_newline(buffer)));
+	return (NULL);
 }
 /*{
 	static char	*buffer;
@@ -190,7 +195,7 @@ char	*get_next_line(int fd)
 #include <fcntl.h>
 int	main()
 {
-	int fd = open("tests/test3.txt", O_RDONLY);
+	int fd = open("tests/test.txt", O_RDONLY);
 
 	printf("Line 1: %s\n", get_next_line(fd));
 	printf("Line 2: %s\n", get_next_line(fd));
