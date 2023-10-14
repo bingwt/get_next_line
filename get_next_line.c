@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/13 15:52:05 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/14 16:21:40 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,43 @@
 
 char	*get_next_line(int fd)
 {
-	int
+	static char	*buffer = "";
+	char		raw[BUFFER_SIZE];
 
-/*char	*get_next_line(int fd)
+	if (is_newline(buffer))
+		buffer += (is_newline(buffer) + 1);
+	else
+		buffer = ft_subdup("", 1);
+	ft_bzero(raw, BUFFER_SIZE);
+	read(fd, raw, BUFFER_SIZE - 1);
+	buffer = ft_strjoin(buffer, raw);
+	while (!is_newline(buffer))
+	{
+		read(fd, raw, BUFFER_SIZE - 1);
+		buffer = ft_strjoin(buffer, raw);
+	}
+	return (ft_subdup(buffer, is_newline(buffer)));
+}
+/*{
+	static char	*buffer;
+	char		*line;
+	int		end;
+
+	while (!is_newline(buffer))
+	{
+		read(fd, buffer, BUFFER_SIZE);
+		end = is_newline(buffer);
+		if (end)
+		{
+			line = ft_subdup(buffer, end);
+			buffer = buffer + end;
+			return (line);
+		}
+	}
+	return (NULL);
+}
+
+char	*get_next_line(int fd)
 {
 	int	buffer_index;
 	int	read_bytes;

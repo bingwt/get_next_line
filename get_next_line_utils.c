@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:55 by btan              #+#    #+#             */
-/*   Updated: 2023/10/13 18:10:48 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/14 16:15:17 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,16 @@ size_t	ft_strlen(const char *s)
 	return (end - s);
 }
 
+void	ft_bzero(void *s, size_t n)
+{
+	while (n > 0)
+		((char *) s)[(n--) - 1] = '\0';
+}
+
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	char	*temp;
-	int	i;
+	size_t	i;
 
 	temp = malloc(nmemb * size);
 	if (!temp)
@@ -40,7 +46,7 @@ int	is_newline(const char *s)
 {
 	char	*end;
 
-	end = s;
+	end = (char *) s;
 	while (*end)
 	{
 		if (*end == '\n')
@@ -48,6 +54,24 @@ int	is_newline(const char *s)
 		end++;
 	}
 	return (0);
+}
+
+char	*ft_subdup(const char *s, int end)
+{
+	char	*dup;
+	int	i;
+
+	i = 0;
+	dup = malloc(sizeof(char) * (end + 1));
+	if (!dup)
+		return (NULL);
+	while (i < end)
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
 }
 
 int	is_end(const char c)
