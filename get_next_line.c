@@ -6,24 +6,22 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/14 17:55:00 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/14 22:47:32 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 char	*get_next_line(int fd)
-{
+/*{
 	static char	*buffer = "";
 	char		raw[BUFFER_SIZE + 1];
-	int		read_bytes;
+	int			read_bytes;
 
 	if (fd)
 	{
 		if (is_newline(buffer))
 			buffer += (is_newline(buffer) + 1);
-		else
-			buffer = ft_subdup("", 1);
 		ft_bzero(raw, BUFFER_SIZE);
 		read_bytes = read(fd, raw, BUFFER_SIZE);
 		buffer = ft_strjoin(buffer, raw);
@@ -36,7 +34,7 @@ char	*get_next_line(int fd)
 	}
 	return (NULL);
 }
-/*{
+{
 	static char	*buffer;
 	char		*line;
 	int		end;
@@ -115,7 +113,7 @@ char	*get_next_line(int fd)
 	char	buffer[BUFFER_SIZE];
 	int	offset;
 	int	bytes;
-	char	*temp;
+	chark-check=full --show-leak-kinds=all	*temp;
 
 
 	if (line)
