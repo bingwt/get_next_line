@@ -6,22 +6,32 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/14 22:47:32 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/15 18:25:36 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+char	*ft_realloc(char *buffer)
+{
+	char	*temp;
+
+	temp = "";
+	temp = ft_strjoin(temp, buffer + is_newline(buffer) + 1);
+	free (buffer);
+	return (temp);
+}
+
 char	*get_next_line(int fd)
-/*{
+{
 	static char	*buffer = "";
 	char		raw[BUFFER_SIZE + 1];
 	int			read_bytes;
 
-	if (fd)
+	if (fd > 0)
 	{
 		if (is_newline(buffer))
-			buffer += (is_newline(buffer) + 1);
+			buffer = ft_realloc(buffer);
 		ft_bzero(raw, BUFFER_SIZE);
 		read_bytes = read(fd, raw, BUFFER_SIZE);
 		buffer = ft_strjoin(buffer, raw);
@@ -34,7 +44,7 @@ char	*get_next_line(int fd)
 	}
 	return (NULL);
 }
-{
+/*{
 	static char	*buffer;
 	char		*line;
 	int		end;
@@ -188,15 +198,23 @@ char	*get_next_line(int fd)
 	}
 	return (line);
 }
-*/
 #include <stdio.h>
 #include <fcntl.h>
 int	main()
 {
-	int fd = open("tests/test.txt", O_RDONLY);
+	int fd = open("tests/test3.txt", O_RDONLY);
 
-	printf("Line 1: %s\n", get_next_line(fd));
-	printf("Line 2: %s\n", get_next_line(fd));
-	printf("Line 3: %s\n", get_next_line(fd));
-	printf("Line 4: %s\n", get_next_line(fd));
+	char	*line = get_next_line(fd);
+	printf("Line 1: %s\n", line);
+	free(line);
+	line = get_next_line(fd);
+	printf("Line 2: %s\n", line);
+	free(line);
+	line = get_next_line(fd);
+	printf("Line 3: %s\n", line);
+	free(line);
+	line = get_next_line(fd);
+	printf("Line 4: %s\n", line);
+	free(line);
 }
+*/
