@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:55 by btan              #+#    #+#             */
-/*   Updated: 2023/10/15 17:22:01 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/16 15:14:07 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t	ft_strlen(const char *s)
 {
 	const char	*end;
 
+	if (!s)
+		return (0);
 	end = s;
 	while (*end)
 		end++;
@@ -31,7 +33,8 @@ void	ft_bzero(void *s, size_t n)
 int	is_newline(const char *s)
 {
 	char	*end;
-
+	if (!s)
+		return (0);
 	end = (char *) s;
 	while (*end)
 	{
@@ -48,7 +51,7 @@ char	*ft_subdup(const char *s, int end)
 	int	i;
 
 	i = 0;
-	dup = malloc(sizeof(char) * (end + 1));
+	dup = ft_calloc(sizeof(char), (end + 1));
 	if (!dup)
 		return (NULL);
 	while (i < end)
@@ -56,7 +59,6 @@ char	*ft_subdup(const char *s, int end)
 		dup[i] = s[i];
 		i++;
 	}
-	dup[i] = '\0';
 	return (dup);
 }
 
@@ -70,12 +72,11 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	i = 0;
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
-	joined = malloc(sizeof(char) * (len1 + len2));
+	joined = ft_calloc(sizeof(char), (len1 + len2));
 	if (!joined)
-	{
-		free((void *) s1);
 		return (NULL);
-	}
+	if (!s1)
+		s1 = ft_calloc(1, 1);
 	while (i < (len1 + len2))
 	{
 		if (*s1)
@@ -83,9 +84,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 		else if (*s2)
 			joined[i++] = *(s2++);
 	}
-	joined[i] = '\0';
 	s1 -= len1;
-	if (ft_strlen(s1))
-		free((void *) s1);
+	free((void *) s1);
 	return (joined);
 }

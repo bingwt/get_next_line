@@ -6,17 +6,27 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/15 18:25:36 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/16 15:14:58 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*arr;
+
+	arr = malloc(nmemb * size);
+	if (arr)
+		ft_bzero(arr, nmemb * size);
+	return (arr);
+}
+
 char	*ft_realloc(char *buffer)
 {
 	char	*temp;
 
-	temp = "";
+	temp = ft_calloc(1, 1);
 	temp = ft_strjoin(temp, buffer + is_newline(buffer) + 1);
 	free (buffer);
 	return (temp);
@@ -24,9 +34,10 @@ char	*ft_realloc(char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer = "";
+	static char	*buffer = NULL;
 	char		raw[BUFFER_SIZE + 1];
 	int			read_bytes;
+	char		*line;
 
 	if (fd > 0)
 	{
@@ -39,6 +50,12 @@ char	*get_next_line(int fd)
 		{
 			read_bytes = read(fd, raw, BUFFER_SIZE);
 			buffer = ft_strjoin(buffer, raw);
+		}
+		if (ft_strlen(buffer) == is_newline(buffer) + 1 && !read_bytes)
+		{
+			line = ft_subdup(buffer, is_newline(buffer));
+			free(buffer);
+			return (line);
 		}
 		return (ft_subdup(buffer, is_newline(buffer)));
 	}
@@ -202,7 +219,7 @@ char	*get_next_line(int fd)
 #include <fcntl.h>
 int	main()
 {
-	int fd = open("tests/test3.txt", O_RDONLY);
+	int fd = open("tests/test.txt", O_RDONLY);
 
 	char	*line = get_next_line(fd);
 	printf("Line 1: %s\n", line);
