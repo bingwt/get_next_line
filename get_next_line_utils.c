@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/* ********************heck=full --show-reachable=yes ./a.out */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:55 by btan              #+#    #+#             */
-/*   Updated: 2023/10/17 12:36:40 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/17 16:05:11 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 int	ft_strlen(const char *s)
 {
-	int	i;
+	const char	*ptr;
 
-	i = 0;
 	if (!s)
 		return (0);
-	while (s[i])
-		i++;
-	return (i);
+	ptr = s;
+	while (*ptr)
+		ptr++;
+	return (ptr - s);
 }
 
 void	ft_bzero(void *s, size_t n)
 {
 	while (n > 0)
-		((char *) s)[(n--) - 1] = '\0';
+		((char *) s)[(n--) - 1] = 0;
 }
 
 int	is_newline(const char *s)
@@ -39,7 +39,7 @@ int	is_newline(const char *s)
 	while (*end)
 	{
 		if (*end == '\n')
-			return (end - s);
+			return (end - s + 1);
 		end++;
 	}
 	return (0);
@@ -51,7 +51,7 @@ char	*ft_subdup(const char *s, int end)
 	int	i;
 
 	i = 0;
-	dup = ft_calloc(sizeof(char), (end + 1));
+	dup = ft_calloc(sizeof(char), (ft_strlen(s) + 1));
 	if (!dup)
 		return (NULL);
 	while (i < end)

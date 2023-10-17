@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/17 12:40:42 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/17 16:01:17 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ char	*ft_realloc(char *buffer)
 	char	*temp;
 
 	temp = ft_calloc(1, 1);
-	temp = ft_strjoin(temp, buffer + is_newline(buffer) + 1);
+	temp = ft_strjoin(temp, buffer + is_newline(buffer));
 	free (buffer);
+	buffer = NULL;
 	return (temp);
 }
 
@@ -40,11 +41,13 @@ char	*get_next_line(int fd)
 	int			read_bytes;
 	char		*line;
 
-	if (fd > 0)
+	if (BUFFER_SIZE <= 0)
+		return (NULL);
+	if (fd >= 0)
 	{
+		ft_bzero(raw, BUFFER_SIZE + 1);
 		if (is_newline(buffer))
 			buffer = ft_realloc(buffer);
-		ft_bzero(raw, BUFFER_SIZE);
 		read_bytes = read(fd, raw, BUFFER_SIZE);
 		buffer = ft_strjoin(buffer, raw);
 		while (!is_newline(buffer) && read_bytes)
@@ -52,10 +55,12 @@ char	*get_next_line(int fd)
 			read_bytes = read(fd, raw, BUFFER_SIZE);
 			buffer = ft_strjoin(buffer, raw);
 		}
-		if (!buffer[is_newline(buffer)] && !read_bytes)
+		//if (!buffer[is_newline(buffer)])
+		if (!read_bytes && !is_newline(buffer))
 		{
 			line = ft_subdup(buffer, is_newline(buffer));
 			free(buffer);
+			buffer = NULL;
 			return (line);
 		}
 		return (ft_subdup(buffer, is_newline(buffer)));
@@ -108,7 +113,7 @@ char	*get_next_line(int fd)
 	return (line);
 }*/
 /*{
-	char	buffer[BUFFER_SIZE];
+	cha_SIZE + 1];FFER_SIZE];
 	char	*ptr;
 	int	i;
 
@@ -216,7 +221,6 @@ char	*get_next_line(int fd)
 	}
 	return (line);
 }
-*/
 #include <stdio.h>
 #include <fcntl.h>
 int	main()
@@ -235,4 +239,8 @@ int	main()
 	line = get_next_line(fd);
 	printf("Line 4: %s\n", line);
 	free(line);
+	line = get_next_line(fd);
+	printf("Line 5: %s\n", line);
+	free(line);
 }
+*/
