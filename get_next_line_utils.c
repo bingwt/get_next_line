@@ -6,22 +6,22 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:55 by btan              #+#    #+#             */
-/*   Updated: 2023/10/16 15:14:07 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/17 12:36:40 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_strlen(const char *s)
 {
-	const char	*end;
+	int	i;
 
+	i = 0;
 	if (!s)
 		return (0);
-	end = s;
-	while (*end)
-		end++;
-	return (end - s);
+	while (s[i])
+		i++;
+	return (i);
 }
 
 void	ft_bzero(void *s, size_t n)
@@ -72,7 +72,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	i = 0;
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
-	joined = ft_calloc(sizeof(char), (len1 + len2));
+	joined = ft_calloc(sizeof(char), (len1 + len2 + 1));
 	if (!joined)
 		return (NULL);
 	if (!s1)

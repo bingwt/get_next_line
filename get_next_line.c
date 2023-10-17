@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/16 15:14:58 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/17 12:40:42 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	void	*arr;
 
 	arr = malloc(nmemb * size);
-	if (arr)
-		ft_bzero(arr, nmemb * size);
+	if (!arr)
+		return (NULL);
+	ft_bzero(arr, nmemb * size);
 	return (arr);
 }
 
@@ -51,7 +52,7 @@ char	*get_next_line(int fd)
 			read_bytes = read(fd, raw, BUFFER_SIZE);
 			buffer = ft_strjoin(buffer, raw);
 		}
-		if (ft_strlen(buffer) == is_newline(buffer) + 1 && !read_bytes)
+		if (!buffer[is_newline(buffer)] && !read_bytes)
 		{
 			line = ft_subdup(buffer, is_newline(buffer));
 			free(buffer);
@@ -215,6 +216,7 @@ char	*get_next_line(int fd)
 	}
 	return (line);
 }
+*/
 #include <stdio.h>
 #include <fcntl.h>
 int	main()
@@ -234,4 +236,3 @@ int	main()
 	printf("Line 4: %s\n", line);
 	free(line);
 }
-*/
