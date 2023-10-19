@@ -6,67 +6,167 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/17 16:01:17 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/19 17:42:52 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*arr;
-
-	arr = malloc(nmemb * size);
-	if (!arr)
-		return (NULL);
-	ft_bzero(arr, nmemb * size);
-	return (arr);
-}
-
-char	*ft_realloc(char *buffer)
-{
-	char	*temp;
-
-	temp = ft_calloc(1, 1);
-	temp = ft_strjoin(temp, buffer + is_newline(buffer));
-	free (buffer);
-	buffer = NULL;
-	return (temp);
-}
-
 char	*get_next_line(int fd)
 {
 	static char	*buffer = NULL;
-	char		raw[BUFFER_SIZE + 1];
-	int			read_bytes;
-	char		*line;
+	int		read_bytes;
+	char		*temp;
 
-	if (BUFFER_SIZE <= 0)
-		return (NULL);
-	if (fd >= 0)
+	if (fd >= 0 && BUFFER_SIZE > 0)
 	{
-		ft_bzero(raw, BUFFER_SIZE + 1);
-		if (is_newline(buffer))
-			buffer = ft_realloc(buffer);
-		read_bytes = read(fd, raw, BUFFER_SIZE);
-		buffer = ft_strjoin(buffer, raw);
-		while (!is_newline(buffer) && read_bytes)
+		if (!buffer)
 		{
-			read_bytes = read(fd, raw, BUFFER_SIZE);
-			buffer = ft_strjoin(buffer, raw);
+			buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+			read_bytes = read(fd, buffer, BUFFER_SIZE);
+			if (read_bytes == -1)
+				return (NULL);
 		}
-		//if (!buffer[is_newline(buffer)])
-		if (!read_bytes && !is_newline(buffer))
+		while (!is_newline(buffer))
 		{
-			line = ft_subdup(buffer, is_newline(buffer));
-			free(buffer);
-			buffer = NULL;
-			return (line);
+			temp = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+			read_bytes = read(fd, temp, BUFFER_SIZE);
+			if (read_bytes == -1)
+				return (NULL);
+			buffer = ft_strallocjoin(buffer, temp);
 		}
-		return (ft_subdup(buffer, is_newline(buffer)));
+		return (ft_linedup(buffer));
 	}
 	return (NULL);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//char	*ft_realloc(char *buffer)
+//{
+//	char	*temp;
+//
+//	temp = ft_calloc(1, 1);
+//	temp = ft_strjoin(temp, buffer + is_newline(buffer));
+//	free (buffer);
+//	buffer = NULL;
+//	return (temp);
+//}
+//
+//char	*get_next_line(int fd)
+//{
+//	static char	*buffer = NULL;
+//	int		read_bytes;
+//	char	*temp;
+//	char	*line;
+//
+//	if (is_not_empty(buffer) && is_newline(buffer))
+//		buffer = ft_realloc(buffer);
+//	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+//	read_bytes = read(fd, buffer, BUFFER_SIZE);
+//	if (fd >= 0 && BUFFER_SIZE > 0 && read_bytes)
+//	{
+//		while (!is_newline(buffer))
+//		{
+//			temp = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+//			read_bytes = read(fd, temp, BUFFER_SIZE);
+//			buffer = ft_strjoin(buffer, temp);
+//			free(temp);
+//		
+//			if (!read_bytes && is_not_empty(buffer))
+//			{
+//				line = ft_strndup(buffer, ft_strlen(buffer));
+//				free(buffer);
+//				return (line);
+//			}
+//		}
+//		line = ft_strndup(buffer, is_newline(buffer));
+//		return (line);
+//	}
+//	free(buffer);
+//	return (NULL);
+//}
+//
+//void	*ft_calloc(size_t nmemb, size_t size)
+//{
+//	void	*arr;
+//
+//	arr = malloc(nmemb * size);
+//	if (!arr)
+//		return (NULL);
+//	ft_bzero(arr, nmemb * size);
+//	return (arr);
+//}
+//
+//char	*ft_realloc(char *buffer)
+//{
+//	char	*temp;
+//
+//	temp = ft_calloc(1, 1);
+//	temp = ft_strjoin(temp, buffer + is_newline(buffer));
+//	free (buffer);
+//	buffer = NULL;
+//	return (temp);
+//}
+//
+//char	*get_next_line(int fd)
+//{
+//	static char	*buffer = NULL;
+//	char		raw[BUFFER_SIZE + 1];
+//	int			read_bytes;
+//	char		*line;
+//
+//	if (fd >= 0 || BUFFER_SIZE > 0)
+//	{
+//		ft_bzero(raw, BUFFER_SIZE + 1);
+//		if (is_newline(buffer))
+//			buffer = ft_realloc(buffer);
+//		read_bytes = read(fd, raw, BUFFER_SIZE);
+//		buffer = ft_strjoin(buffer, raw);
+//		while (!is_newline(buffer) && read_bytes)
+//		{
+//			read_bytes = read(fd, raw, BUFFER_SIZE);
+//			buffer = ft_strjoin(buffer, raw);
+//		}
+//		if (!read_bytes && !is_newline(buffer))
+//		{
+//			line = ft_subdup(buffer, is_newline(buffer));
+//			free(buffer);
+//			buffer = NULL;
+//			return (line);
+//		}
+//		return (ft_subdup(buffer, is_newline(buffer)));
+//	}
+//	return (NULL);
+//}
 /*{
 	static char	*buffer;
 	char		*line;
@@ -221,6 +321,7 @@ char	*get_next_line(int fd)
 	}
 	return (line);
 }
+*/
 #include <stdio.h>
 #include <fcntl.h>
 int	main()
@@ -243,4 +344,3 @@ int	main()
 	printf("Line 5: %s\n", line);
 	free(line);
 }
-*/

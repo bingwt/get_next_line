@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:48 by btan              #+#    #+#             */
-/*   Updated: 2023/10/17 12:35:06 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/18 16:45:14 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,14 @@
 # endif
 
 int	ft_strlen(const char *s);
-void	ft_bzero(void *s, size_t n);
+//void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 int	is_newline(const char *s);
-char	*ft_subdup(const char *s, int end);
-char	*ft_strjoin(const char *s1, const char *s2);
+int	is_not_empty(const char *s);
+char	*ft_strndup(char *s, size_t end);
+char	*ft_strjoin(char *s1, char *s2);
+//char	*ft_subdup(const char *s, int end);
+//char	*ft_strjoin(const char *s1, const char *s2);
 char	*get_next_line(int fd);
 
 #endif
