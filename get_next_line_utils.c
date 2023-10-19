@@ -1,4 +1,4 @@
-/* ********************heck=full --show-reachable=yes ./a.out */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:55 by btan              #+#    #+#             */
-/*   Updated: 2023/10/19 18:04:41 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/19 18:11:30 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,27 @@
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
+	char	*arr;
 
+	arr = malloc(nmemb * size);
+	if (!arr)
+		return (NULL);
+	while (nmemb > 0)
+		arr[--nmemb] = 0;
+	arr[nmemb] = 0;
+	return ((void *) arr);
+}
 
+int	is_newline(const char *s)
+{
+	const char	*ptr;
+
+		ptr = s;
+	while (*ptr)
+		if (*(ptr++) == '\n')
+			return (ptr - s);
+	return (0);
+}
 
 
 
