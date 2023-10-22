@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:48 by btan              #+#    #+#             */
-/*   Updated: 2023/10/22 09:30:12 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/22 23:56:48 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,10 @@
 # define BUFFER_SIZE	1
 # endif
 
-int	ft_strlen(const char *s);
-//void	ft_bzero(void *s, size_t n);
+int	ft_strlen(char *s);
 void	*ft_calloc(size_t nmemb, size_t size);
-int	is_newline(const char *s);
-int	is_not_empty(const char *s);
 char	*ft_strdup(char *s);
 char	*ft_strjoin(char *s1, char *s2);
-//char	*ft_subdup(const char *s, int end);
-//char	*ft_strjoin(const char *s1, const char *s2);
 char	*get_next_line(int fd);
 
 #endif
