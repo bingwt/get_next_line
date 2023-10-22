@@ -6,11 +6,54 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/19 18:15:57 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/22 09:28:23 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*ft_strallocjoin(char *s1, char *s2)
+{
+	int	len1;
+	int	len2;
+	char	*joined;
+
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	joined = ft_calloc(len1 + len2 + 1, sizeof(char));
+	while (len2--)
+		joined[len1 + len2] = s2[len2];
+	while (len1--)
+		joined[len1] = s1[len1];
+	free(s1);
+	free(s2);
+	return (joined);
+}
+
+char	*ft_linedup(char *buffer)
+{
+	int	i;
+	char	*original;
+	char	*line;
+	int	len;
+
+	i = 0;
+	original = buffer;
+	free(buffer);
+	buffer = NULL;
+	line = ft_calloc((is_newline(original) + 1), sizeof(char));
+	len = is_newline(original);
+	if (!dup)
+		return (NULL);
+	while (i < len)
+	{
+		line[i] = buffer[i];
+		i++;
+	}
+	if (original[i])
+		buffer = ft_strdup(original + ft_strlen(len);
+	return (line);
+}
 
 char	*get_next_line(int fd)
 {
@@ -18,22 +61,24 @@ char	*get_next_line(int fd)
 	int		read_bytes;
 	char		*temp;
 
-	if (fd >= 0 && BUFFER_SIZE > 0)
+	if (fd >= 0 && BUFFER_SIZE > 0 && read(fd, buffer, 0) > -1)
 	{
 		if (!buffer)
 		{
 			buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 			read_bytes = read(fd, buffer, BUFFER_SIZE);
-			if (read_bytes == -1)
-				return (NULL);
 		}
 		while (!is_newline(buffer))
 		{
 			temp = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 			read_bytes = read(fd, temp, BUFFER_SIZE);
-			if (read_bytes == -1)
-				return (NULL);
 			buffer = ft_strallocjoin(buffer, temp);
+		}
+		if (!is_newline(buffer))
+		{
+			temp = ft_strdup(buffer);
+			free(buffer);
+			return (temp);
 		}
 		return (ft_linedup(buffer));
 	}

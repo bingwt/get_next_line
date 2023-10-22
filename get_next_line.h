@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:48 by btan              #+#    #+#             */
-/*   Updated: 2023/10/18 16:45:14 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/22 09:30:12 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_strlen(const char *s);
 void	*ft_calloc(size_t nmemb, size_t size);
 int	is_newline(const char *s);
 int	is_not_empty(const char *s);
-char	*ft_strndup(char *s, size_t end);
+char	*ft_strdup(char *s);
 char	*ft_strjoin(char *s1, char *s2);
 //char	*ft_subdup(const char *s, int end);
 //char	*ft_strjoin(const char *s1, const char *s2);

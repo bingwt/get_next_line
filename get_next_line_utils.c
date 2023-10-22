@@ -6,11 +6,21 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:55 by btan              #+#    #+#             */
-/*   Updated: 2023/10/19 18:11:30 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/22 09:27:42 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+int	ft_strlen(char *s)
+{
+	char	*ptr;
+
+	ptr = s;
+	while (*ptr)
+		ptr++;
+	return (ptr - s);
+}
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
@@ -35,6 +45,26 @@ int	is_newline(const char *s)
 			return (ptr - s);
 	return (0);
 }
+
+char	*ft_strdup(char *s)
+{
+	int	len;
+	char	*dup;
+
+	len = ft_strlen(s);
+	dup = ft_calloc(len + 1, sizeof(char));
+	while (len--)
+		dup[len] = s[len];
+	return (dup);
+}
+
+
+
+
+
+
+
+
 
 
 
