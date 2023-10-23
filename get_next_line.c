@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/23 10:15:34 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/23 14:14:49 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,21 +72,25 @@ char	*get_next_line(int fd)
 		return (new);
 	}
 	if (!*buffer)
-	{
-		free(buffer);
-		buffer = NULL;
-	}
-	return (buffer);
+		{
+			free(buffer);
+			buffer = NULL;
+			return (NULL);
+		}
+	new = ft_strdup(buffer);
+	free(buffer);
+	buffer = NULL;
+	return (new);
 }
 
 #include <fcntl.h>
 #include <stdio.h>
 int	main()
 {
-	int	fd = open("tests/test3.txt", O_RDONLY);
+	int	fd = open("tests/variable_nls.txt", O_RDONLY);
 	char	*line = get_next_line(fd);
 
-	for (int i = 1; i < 6; i++)
+	for (int i = 1; i < 16; i++)
 	{
 		printf("Line %d: %s", i, line);
 		free(line);
