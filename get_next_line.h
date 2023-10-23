@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:48 by btan              #+#    #+#             */
-/*   Updated: 2023/10/22 23:56:48 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/23 07:55:29 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 int	ft_strlen(char *s);
 void	*ft_calloc(size_t nmemb, size_t size);
+char	*ft_strchr(const char *str, int c);
 char	*ft_strdup(char *s);
 char	*ft_strjoin(char *s1, char *s2);
 char	*get_next_line(int fd);
