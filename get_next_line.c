@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/23 08:40:41 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/23 09:40:46 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*get_line(char	*buffer)
 {
-	int	len;
+	int		len;
 	char	*temp;
 
 	len = 0;
@@ -27,13 +27,12 @@ char	*get_line(char	*buffer)
 	return (temp);
 }
 
-
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
 	int			read_bytes;
-	char			*temp;
-	char			*new;
+	char		*temp;
+	char		*new;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, buffer, 0) < 0)
 		return (NULL);
@@ -79,17 +78,17 @@ char	*get_next_line(int fd)
 	return (buffer);
 }
 
-#include <fcntl.h>
-#include <stdio.h>
-int	main()
-{
-	int	fd = open("tests/test.txt", O_RDONLY);
-	char	*line = get_next_line(fd);
-
-	for (int i = 1; i < 6; i++)
-	{
-		printf("Line %d: %s", i, line);
-		free(line);
-		line = get_next_line(fd);
-	}
-}
+//#include <fcntl.h>
+//#include <stdio.h>
+//int	main()
+//{
+//	int	fd = open("tests/test.txt", O_RDONLY);
+//	char	*line = get_next_line(fd);
+//
+//	for (int i = 1; i < 6; i++)
+//	{
+//		printf("Line %d: %s", i, line);
+//		free(line);
+//		line = get_next_line(fd);
+//	}
+//}

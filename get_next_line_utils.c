@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:55 by btan              #+#    #+#             */
-/*   Updated: 2023/10/23 07:58:55 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/23 09:44:25 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ft_strchr(const char *str, int c)
 
 char	*ft_strdup(char *s)
 {
-	int	len;
+	int		len;
 	char	*dup;
 
 	len = ft_strlen(s);
@@ -57,8 +57,8 @@ char	*ft_strdup(char *s)
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	int	len1;
-	int	len2;
+	int		len1;
+	int		len2;
 	char	*joined;
 
 	len1 = ft_strlen(s1);
