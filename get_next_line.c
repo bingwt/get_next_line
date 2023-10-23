@@ -6,13 +6,13 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/23 09:40:46 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/23 10:15:34 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*get_line(char	*buffer)
+char	*get_newline(char	*buffer)
 {
 	int		len;
 	char	*temp;
@@ -34,6 +34,7 @@ char	*get_next_line(int fd)
 	char		*temp;
 	char		*new;
 
+	read_bytes = 0;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, buffer, 0) < 0)
 		return (NULL);
 	if (buffer == NULL)
@@ -56,7 +57,7 @@ char	*get_next_line(int fd)
 	}
 	if (ft_strchr(buffer, '\n') != NULL)
 	{
-		new = get_line(buffer);
+		new = get_newline(buffer);
 		temp = ft_strdup(ft_strchr(buffer, '\n'));
 		free(buffer);
 		buffer = NULL;
@@ -73,22 +74,22 @@ char	*get_next_line(int fd)
 	if (!*buffer)
 	{
 		free(buffer);
-		return (NULL);
+		buffer = NULL;
 	}
 	return (buffer);
 }
 
-//#include <fcntl.h>
-//#include <stdio.h>
-//int	main()
-//{
-//	int	fd = open("tests/test.txt", O_RDONLY);
-//	char	*line = get_next_line(fd);
-//
-//	for (int i = 1; i < 6; i++)
-//	{
-//		printf("Line %d: %s", i, line);
-//		free(line);
-//		line = get_next_line(fd);
-//	}
-//}
+#include <fcntl.h>
+#include <stdio.h>
+int	main()
+{
+	int	fd = open("tests/test3.txt", O_RDONLY);
+	char	*line = get_next_line(fd);
+
+	for (int i = 1; i < 6; i++)
+	{
+		printf("Line %d: %s", i, line);
+		free(line);
+		line = get_next_line(fd);
+	}
+}
