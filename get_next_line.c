@@ -6,36 +6,35 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/24 16:01:27 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/27 13:57:40 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*read_line(char *buffer, int fd)
+static char	*fill_buffer(char *buffer, int fd)
 {
+	char	*ptr;
 	char	*temp;
-	int		read_bytes;
-	char	*new;
+	int	read_bytes;
 
-	temp = NULL;
-	while (ft_strchr(buffer, '\n') == NULL)
+	if (!buffer)
+		ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	ptr = buffer;
+	temp = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	read_bytes = read(fd, temp, BUFFER_SIZE);
+	buffer = ft_strjoin(buffer, temp);
+	free(temp);
+	free(ptr);
+	if (read_bytes < 0)
 	{
-		read_bytes = read(fd, buffer, BUFFER_SIZE);
-		if (read_bytes == 0)
-			break ;
-		temp = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-		read_bytes = read(fd, buffer, BUFFER_SIZE);
-		new = ft_strjoin(temp, buffer);
-		free(temp);
 		free(buffer);
-		buffer = ft_strdup(new);
-		free(new);
+		buffer = NULL;
 	}
 	return (buffer);
 }
 
-static char	*get_line(char *buffer)
+static char	*cut_line(char *buffer)
 {
 	int	len;
 	char	*temp;
@@ -47,6 +46,7 @@ static char	*get_line(char *buffer)
 	temp = ft_calloc(len + 1, sizeof(char));
 	while (len--)
 		temp[len] = buffer[len];
+	buffer = butfer[len];
 	return (temp);
 }
 
@@ -60,15 +60,11 @@ char	*get_next_line(int fd)
 	temp = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (buffer == NULL)
-	{
-		buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-		read_bytes = read(fd, buffer, BUFFER_SIZE);
-	}
-	buffer = read_line(buffer, fd);
-	if (ft_strchr(buffer, '\n') != NULL)
-		temp = get_line(buffer);
-	return (temp);
+	while (ft_strchr(buffer) == NULL)
+		buffer = fill_buffer(buffer, fd);
+	if (ft_strchr(buffer != NULL))
+		return (cut_line(buffer));
+	return (buffer);
 }
 
 #include <stdio.h>
