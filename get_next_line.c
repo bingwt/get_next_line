@@ -6,27 +6,31 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/27 14:07:30 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/27 23:45:02 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*fill_buffer(char *buffer, int fd)
+static char	*fill_buffer(int *read_bytes, int fd, char *buffer)
 {
 	char	*ptr;
 	char	*temp;
-	int	read_bytes;
 
 	if (!buffer)
-		ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+		buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	ptr = buffer;
 	temp = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	read_bytes = read(fd, temp, BUFFER_SIZE);
+	*read_bytes = read(fd, temp, BUFFER_SIZE);
 	buffer = ft_strjoin(buffer, temp);
 	free(temp);
 	free(ptr);
-	if (read_bytes < 0)
+	if (*read_bytes < 0)
+	{
+		free(buffer);
+		buffer = NULL;
+	}
+	if (!*read_bytes && !*buffer)
 	{
 		free(buffer);
 		buffer = NULL;
@@ -34,52 +38,63 @@ static char	*fill_buffer(char *buffer, int fd)
 	return (buffer);
 }
 
-static char	*cut_line(char *buffer)
+static char	*cut_line(char **buffer)
 {
-	int	len;
+	int		len;
+	char	*ptr;
 	char	*temp;
 
 	len = 0;
-	while(buffer[len] != '\n')
+	ptr = *buffer;
+	while ((*buffer)[len] != '\n')
 		len++;
 	len++;
 	temp = ft_calloc(len + 1, sizeof(char));
 	while (len--)
-		temp[len] = buffer[len];
-	buffer = &buffer[len];
+		temp[len] = (*buffer)[len];
+	*buffer = ft_strdup(ft_strchr(*buffer, '\n'));
+	free(ptr);
 	return (temp);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
 	int			read_bytes;
-	char		*temp;
+	static char	*buffer;
+	char		*line;
 
-
-	temp = NULL;
+	read_bytes = 1;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	while (ft_strchr(buffer, '\n') == NULL)
-		buffer = fill_buffer(buffer, fd);
+	while (ft_strchr(buffer, '\n') == NULL && read_bytes)
+	{
+		buffer = fill_buffer(&read_bytes, fd, buffer);
+		if (!buffer)
+			break ;
+	}
 	if (ft_strchr(buffer, '\n') != NULL)
-		return (cut_line(buffer));
-	return (buffer);
+		return (cut_line(&buffer));
+	if (!buffer)
+		return (NULL);
+	line = ft_strdup(buffer);
+	free(buffer);
+	buffer = NULL;
+	return (line);
 }
 
-#include <stdio.h>
-#include <fcntl.h>
-int	main()
-{
-	int	fd = open("tests/test.txt", O_RDONLY);
-	char	*line = get_next_line(fd);
-	for (int i = 1; i < 16; i++)
-	{
-		printf("Line %d: %s", i, line);
-		free(line);
-		line = get_next_line(fd);
-	}
-}
+//#include <stdio.h>
+//#include <fcntl.h>
+//int	main()
+//{
+//	int	fd = open("tests/test.txt", O_RDONLY);
+//	char	*line = get_next_line(fd);
+//	for (int i = 1; i < 16; i++)
+//	{
+//		printf("Line %d: %s", i, line);
+//		free(line);
+//		line = get_next_line(fd);
+//	}
+//}
 
 //#include <stdio.h>
 //#include <fcntl.h>
