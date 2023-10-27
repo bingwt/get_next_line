@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/27 13:57:40 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/27 14:07:30 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*cut_line(char *buffer)
 	temp = ft_calloc(len + 1, sizeof(char));
 	while (len--)
 		temp[len] = buffer[len];
-	buffer = butfer[len];
+	buffer = &buffer[len];
 	return (temp);
 }
 
@@ -60,9 +60,9 @@ char	*get_next_line(int fd)
 	temp = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	while (ft_strchr(buffer) == NULL)
+	while (ft_strchr(buffer, '\n') == NULL)
 		buffer = fill_buffer(buffer, fd);
-	if (ft_strchr(buffer != NULL))
+	if (ft_strchr(buffer, '\n') != NULL)
 		return (cut_line(buffer));
 	return (buffer);
 }
@@ -81,6 +81,9 @@ int	main()
 	}
 }
 
+//#include <stdio.h>
+//#include <fcntl.h>
+//
 //int main(void)
 //{
 //  // Create a temporary file and write test content to it.
