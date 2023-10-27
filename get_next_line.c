@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/27 23:45:02 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/27 23:58:48 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,7 @@ static char	*fill_buffer(int *read_bytes, int fd, char *buffer)
 	buffer = ft_strjoin(buffer, temp);
 	free(temp);
 	free(ptr);
-	if (*read_bytes < 0)
-	{
-		free(buffer);
-		buffer = NULL;
-	}
-	if (!*read_bytes && !*buffer)
+	if (*read_bytes < 0 || (!*read_bytes && !*buffer))
 	{
 		free(buffer);
 		buffer = NULL;
