@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:48 by btan              #+#    #+#             */
-/*   Updated: 2023/10/28 00:38:26 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/28 15:30:40 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE	1
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE	1
 # endif
 
 int		ft_strlen(char *s);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/27 23:58:48 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/28 15:32:01 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,25 @@ static char	*cut_line(char **buffer)
 char	*get_next_line(int fd)
 {
 	int			read_bytes;
-	static char	*buffer;
+	static char	*buffer[1024];
 	char		*line;
 
 	read_bytes = 1;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	while (ft_strchr(buffer, '\n') == NULL && read_bytes)
+	while (ft_strchr(buffer[fd], '\n') == NULL && read_bytes)
 	{
-		buffer = fill_buffer(&read_bytes, fd, buffer);
-		if (!buffer)
+		buffer[fd] = fill_buffer(&read_bytes, fd, buffer[fd]);
+		if (!buffer[fd])
 			break ;
 	}
-	if (ft_strchr(buffer, '\n') != NULL)
-		return (cut_line(&buffer));
-	if (!buffer)
+	if (ft_strchr(buffer[fd], '\n') != NULL)
+		return (cut_line(&buffer[fd]));
+	if (!buffer[fd])
 		return (NULL);
-	line = ft_strdup(buffer);
-	free(buffer);
-	buffer = NULL;
+	line = ft_strdup(buffer[fd]);
+	free(buffer[fd]);
+	buffer[fd] = NULL;
 	return (line);
 }
 
