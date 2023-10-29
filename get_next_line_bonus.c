@@ -6,11 +6,11 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/28 15:32:01 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/30 02:21:18 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*fill_buffer(int *read_bytes, int fd, char *buffer)
 {
@@ -47,7 +47,7 @@ static char	*cut_line(char **buffer)
 	temp = ft_calloc(len + 1, sizeof(char));
 	while (len--)
 		temp[len] = (*buffer)[len];
-	*buffer = ft_strdup(ft_strchr(*buffer, '\n'));
+	*buffer = ft_strdup(ft_strchr(*buffer, '\n') + 1);
 	free(ptr);
 	return (temp);
 }

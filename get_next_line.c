@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:24:40 by btan              #+#    #+#             */
-/*   Updated: 2023/10/27 23:58:48 by btan             ###   ########.fr       */
+/*   Updated: 2023/10/30 02:20:43 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*cut_line(char **buffer)
 	temp = ft_calloc(len + 1, sizeof(char));
 	while (len--)
 		temp[len] = (*buffer)[len];
-	*buffer = ft_strdup(ft_strchr(*buffer, '\n'));
+	*buffer = ft_strdup(ft_strchr(*buffer, '\n') + 1);
 	free(ptr);
 	return (temp);
 }
